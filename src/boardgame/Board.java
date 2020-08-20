@@ -32,7 +32,15 @@ public class Board {
 		this.columns = columns;
 	}
 	
+	// retorna coordenadas da peça
+	public Piece piece(int row, int column) {
+		return pieces[row][column];
+	}
 	
+	// retorna Posição da peça no contexto
+	public Piece piece(Position position) {
+		return pieces[position.getRow()][position.getColumn()];
+	}
 	
 	
 	
