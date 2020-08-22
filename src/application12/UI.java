@@ -1,6 +1,10 @@
 package application12;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.Color;
 
 public class UI {
@@ -26,6 +30,19 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	// Lê uma posição do usuário 
+	public static ChessPosition readChessPosition(Scanner sc) {
+		try {
+			String s = sc.nextLine(); // recebe a jogada
+			char column = s.charAt(0); // extrai a letra
+			int row = Integer.parseInt(s.substring(1)); // extrai o número
+			return new ChessPosition(column, row);
+			
+		} catch (RuntimeException e) {
+			throw new InputMismatchException("Valores válidos: 'a1' até 'h8'");
+		}
+	}
+	
 	
 	// Imprime tabuleiro com as peças
 	public static void printBoard(ChessPiece[][] pieces) {
@@ -36,7 +53,7 @@ public class UI {
 			}
 			System.out.println();
 		}
-		System.out.println("  a b d d e f g h"); // nome das colunas
+		System.out.println("  a b c d e f g h"); // nome das colunas
 	}
 
 	// Imprime uma peça apenas
