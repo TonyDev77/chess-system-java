@@ -14,6 +14,12 @@ public class Rook extends ChessPiece {
 		return "R";
 	}
 	
-	
+	@Override
+	public boolean[][] possibleMoves() {
+		// Nota. Todas as posições de uma matriz iniciam em null
+		boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+		
+		return mat;
+	}
 	
 }
