@@ -24,6 +24,12 @@ public class Program12 {
 				System.out.print("source: ");
 				ChessPosition source = UI.readChessPosition(sc); // lê posição de origem
 				
+				// imprime posições possíveis
+				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+				UI.clearScreen(); // limpa a tela
+				UI.printBoard(chessMatch.getPieces(), possibleMoves); // imprime colorido
+				
+				
 				System.out.print("Target: ");
 				ChessPosition target = UI.readChessPosition(sc); // lê posição de destino
 				

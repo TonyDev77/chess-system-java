@@ -25,6 +25,14 @@ public class ChessMatch {
 		return mat;
 	}
 
+	// imprimindo posições possíveis a partir da posição de origem
+	public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+		Position position = sourcePosition.toPosition();
+		validateSourcePosition(position);
+		
+		return board.piece(position).possibleMoves();
+	}
+	
 	// movendo a peça no tabuleiro
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
 		Position source = sourcePosition.toPosition(); // converte para posição de matriz
@@ -59,7 +67,7 @@ public class ChessMatch {
 	// verifica se posição de destino está ocupada
 	private void validateTargetPosition(Position source, Position target) {
 		if (!board.piece(source).possibleMove(target)) {
-			throw new ChessException("Peça escolhida não pode se mover p/ posição de destino");
+			throw new ChessException("Peça escolhida não pode ser movida p/ posição de destino");
 		}
 	}
 
