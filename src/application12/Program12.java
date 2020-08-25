@@ -18,7 +18,7 @@ public class Program12 {
 		while (true) {
 			try {				
 				UI.clearScreen(); // limpa a tela
-				UI.printBoard(chessMatch.getPieces()); // imprime tabuleiro
+				UI.printMatch(chessMatch);; // imprime tabuleiro/jogadas
 				
 				System.out.println();
 				System.out.print("source: ");
