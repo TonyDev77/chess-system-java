@@ -70,6 +70,7 @@ public class Rook extends ChessPiece {
 		}
 
 		return mat;
+		// NOTA. A Torre pode mover apenas para frente e lados
 	}
 
 }
