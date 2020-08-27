@@ -64,6 +64,11 @@ public class UI {
 		
 		System.out.println("Turn: " + chessMatch.getTurn());// imprime o turno
 		System.out.println("Aguardando jogador: " + chessMatch.getCurrentPlayer());// vez do player
+		
+		// avisa se o jogador está em check
+		if (chessMatch.getCheck()) {
+			System.out.println("CHECK!");
+		}
 	}
 	
 	// Imprime tabuleiro com as peças
