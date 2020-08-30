@@ -109,6 +109,24 @@ public class ChessMatch {
 			capturedPieces.add(capturedPiece);
 		}
 		
+		// Jogada especial Castling - Roque pequeno
+		if (p instanceof King && target.getColumn() == source.getColumn() + 2) { // testa para 'Roque pequeno'
+			Position sourceT = new Position(source.getRow(), source.getColumn() + 3); // pega posição da torre R
+			Position targetT = new Position(source.getRow(), source.getColumn() + 1); // destino da torre
+			ChessPiece rook = (ChessPiece) board.removePiece(sourceT);// movendo a torre
+			board.placePiece(rook, targetT);// colocando a torre no destino
+			rook.increaseMoveCount();// incrementa cont de movimentos
+		}
+		
+		// Jogada especial Castling - Roque Grande
+		if (p instanceof King && target.getColumn() == source.getColumn() - 2) { // testa para 'Roque pequeno'
+			Position sourceT = new Position(source.getRow(), source.getColumn() - 4); // pega posição da torre L
+			Position targetT = new Position(source.getRow(), source.getColumn() - 1); // destino da torre
+			ChessPiece rook = (ChessPiece) board.removePiece(sourceT);// movendo a torre
+			board.placePiece(rook, targetT);// colocando a torre no destino
+			rook.increaseMoveCount();// incrementa cont de movimentos
+		}
+		
 		return capturedPiece;
 	}
 	
@@ -122,6 +140,24 @@ public class ChessMatch {
 			board.placePiece(capturedPiece, target); // põe de volta no destino
 			capturedPieces.remove(capturedPiece); // remove das capturadas
 			piecesOnTheBoard.add(capturedPiece); // reposiciona no tabuleiro
+		}
+		
+		// Jogada especial Castling - Roque pequeno
+		if (p instanceof King && target.getColumn() == source.getColumn() + 2) { // testa para 'Roque pequeno'
+			Position sourceT = new Position(source.getRow(), source.getColumn() + 3); // pega posição da torre R
+			Position targetT = new Position(source.getRow(), source.getColumn() + 1); // destino da torre
+			ChessPiece rook = (ChessPiece) board.removePiece(targetT);// movendo a torre
+			board.placePiece(rook, sourceT);// colocando a torre de volta
+			rook.decreaseMoveCount();// decrementa cont de movimentos
+		}
+
+		// Jogada especial Castling - Roque Grande
+		if (p instanceof King && target.getColumn() == source.getColumn() - 2) { // testa para 'Roque pequeno'
+			Position sourceT = new Position(source.getRow(), source.getColumn() - 4); // pega posição da torre L
+			Position targetT = new Position(source.getRow(), source.getColumn() - 1); // destino da torre
+			ChessPiece rook = (ChessPiece) board.removePiece(targetT);// movendo a torre
+			board.placePiece(rook, sourceT);// colocando a torre de volta
+			rook.decreaseMoveCount();// decrementa cont de movimentos
 		}
 	}
 
@@ -232,10 +268,10 @@ public class ChessMatch {
 	// Iniciando setup do jogo
 	private void initialSetup() {
 		placeNewPiece('a', 1, new Rook(board, Color.WHITE));
-		placeNewPiece('b', 1, new Knight(board, Color.WHITE));
-		placeNewPiece('c', 1, new Bishop(board, Color.WHITE));
-		placeNewPiece('d', 1, new Queen(board, Color.WHITE));
-        placeNewPiece('e', 1, new King(board, Color.WHITE));
+        placeNewPiece('b', 1, new Knight(board, Color.WHITE));
+        placeNewPiece('c', 1, new Bishop(board, Color.WHITE));
+        placeNewPiece('d', 1, new Queen(board, Color.WHITE));
+        placeNewPiece('e', 1, new King(board, Color.WHITE, this)); // 'this' refere-se a esta jogada
         placeNewPiece('f', 1, new Bishop(board, Color.WHITE));
         placeNewPiece('g', 1, new Knight(board, Color.WHITE));
         placeNewPiece('h', 1, new Rook(board, Color.WHITE));
@@ -252,7 +288,7 @@ public class ChessMatch {
         placeNewPiece('b', 8, new Knight(board, Color.BLACK));
         placeNewPiece('c', 8, new Bishop(board, Color.BLACK));
         placeNewPiece('d', 8, new Queen(board, Color.BLACK));
-        placeNewPiece('e', 8, new King(board, Color.BLACK));
+        placeNewPiece('e', 8, new King(board, Color.BLACK, this));
         placeNewPiece('f', 8, new Bishop(board, Color.BLACK));
         placeNewPiece('g', 8, new Knight(board, Color.BLACK));
         placeNewPiece('h', 8, new Rook(board, Color.BLACK));
