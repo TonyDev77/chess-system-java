@@ -22,6 +22,7 @@ public class ChessMatch {
 	private boolean check = false;
 	private boolean checkMate = false;
 	private ChessPiece enPassantVulnerable = null;
+	private ChessPiece promoted = null;
 	
 	// Listas de peças no tabuleiro e capturadas
 	private List<Piece> piecesOnTheBoard = new ArrayList<>();
@@ -54,6 +55,11 @@ public class ChessMatch {
 	// get jogada especial En Passant
 	public ChessPiece getEnPassantVulnerable() {
 		return enPassantVulnerable;
+	}
+
+	// get jogada especial Pormotion
+	public ChessPiece getPromoted() {
+		return promoted;
 	}
 
 	// retorna a matriz de peças da partida
@@ -93,6 +99,19 @@ public class ChessMatch {
 		// atributo de referencia para EN PASSANT
 		ChessPiece movedPiece = (ChessPiece) board.piece(target);
 		
+		// atributo de referencia para PROMOTION
+		promoted = null;
+		if (movedPiece instanceof Pawn) {
+			if ((movedPiece.getColor() == Color.WHITE && target.getRow() == 0) 
+					|| (movedPiece.getColor() == Color.BLACK && target.getRow() == 7) ) {
+				// identificando o peão
+				promoted = (ChessPiece) board.piece(target);
+				// transforma por padrão na Rainha e depois deixa o jogador escolher
+				promoted = replacePromotedPiece("Q");
+				
+			}
+		}
+		
 		// informando se o oponente está em check
 		check = (testCheck(opponent(currentPlayer))) ? true : false;
 		
@@ -112,6 +131,34 @@ public class ChessMatch {
 		}
 		
 		return (ChessPiece) capturedPiece;
+	}
+
+	// deixa usuário escolher a peça para substituir peão
+	public ChessPiece replacePromotedPiece(String type) {
+		if (promoted == null) {
+			throw new IllegalStateException("Não há peça p/ ser promovida!");
+		}
+		if (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+			
+		}
+		
+		Position pos = promoted.getChessPosition().toPosition(); // pega posição da peça
+		Piece p = board.removePiece(pos); // remove peça e guarda na variável
+		piecesOnTheBoard.remove(p); // remove da lista
+		
+		// instanciando nova peça com método auxiliar
+		ChessPiece newPiece = newPiece(type, promoted.getColor());
+		board.placePiece(newPiece, pos);
+		piecesOnTheBoard.add(newPiece);
+		return newPiece;
+		
+	}
+	// Método auxiliar para 'replacePromotedPiece()'
+	private ChessPiece newPiece(String type, Color color) {
+		if (type.equals("B")) return new Bishop(board, color);
+		if (type.equals("N")) return new Knight(board, color);
+		if (type.equals("Q")) return new Queen(board, color);
+		return new Rook(board, color);
 	}
 
 	// move a peça
