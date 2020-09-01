@@ -139,7 +139,7 @@ public class ChessMatch {
 			throw new IllegalStateException("Não há peça p/ ser promovida!");
 		}
 		if (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
-			
+			return promoted;
 		}
 		
 		Position pos = promoted.getChessPosition().toPosition(); // pega posição da peça
